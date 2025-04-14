@@ -31,7 +31,7 @@ void BarcodeGenerator::generateBarcode(const QString &text)
         }
 
         ZXing::MultiFormatWriter writer{ZXing::BarcodeFormat::Code128};
-        auto matrix = writer.encode(text.toStdWString(), 350, 120); // Увеличиваем размер до 350x120
+        auto matrix = writer.encode(text.toStdWString(), 350, 120);
         m_barcodeImage = QImage(350, 120, QImage::Format_RGB32);
         m_barcodeImage.fill(Qt::white);
 
@@ -76,8 +76,8 @@ void BarcodeGenerator::generateBarcodeForHistory(const QString &text, const QStr
         }
 
         ZXing::MultiFormatWriter writer{ZXing::BarcodeFormat::Code128};
-        auto matrix = writer.encode(text.toStdWString(), 80, 30);
-        QImage image(80, 30, QImage::Format_RGB32);
+        auto matrix = writer.encode(text.toStdWString(), 350, 120);
+        QImage image(350, 120, QImage::Format_RGB32);
         image.fill(Qt::white);
 
         for (int y = 0; y < matrix.height(); ++y) {
@@ -141,7 +141,7 @@ void BarcodeGenerator::generateFromCsv(const QString &filePath)
             qDebug() << "Обработка текста из CSV:" << text;
 
             ZXing::MultiFormatWriter writer{ZXing::BarcodeFormat::Code128};
-            auto matrix = writer.encode(text.toStdWString(), 350, 120); // Увеличиваем размер до 350x120
+            auto matrix = writer.encode(text.toStdWString(), 350, 120);
             QImage image(350, 120, QImage::Format_RGB32);
             image.fill(Qt::white);
 

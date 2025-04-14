@@ -16,13 +16,6 @@ bool DatabaseManager::initialize()
         qDebug() << "Не удалось открыть базу данных:" << m_database.lastError().text();
         return false;
     }
-    if (!verifyTableStructure()) {
-        qDebug() << "Попытка миграции таблицы";
-        if (!migrateTable()) {
-            qDebug() << "Ошибка миграции таблицы";
-            return false;
-        }
-    }
     return true;
 }
 
@@ -44,6 +37,20 @@ void DatabaseManager::initializeDatabase()
         qDebug() << "Ошибка открытия базы данных:" << m_database.lastError().text();
         return;
     }
+
+    // Создаём таблицу codes, если она не существует
+    QSqlQuery query(m_database);
+    bool success = query.exec("CREATE TABLE IF NOT EXISTS codes ("
+                              "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                              "text TEXT, "
+                              "type TEXT, "
+                              "created_at TEXT)");
+    if (!success) {
+        qDebug() << "Ошибка создания таблицы codes:" << query.lastError().text();
+        m_database.close();
+        return;
+    }
+    qDebug() << "Таблица codes успешно создана или уже существует";
 }
 
 bool DatabaseManager::verifyTableStructure()
@@ -209,4 +216,21 @@ QVariantList DatabaseManager::getCodesByType(const QString &type)
     }
     qDebug() << "Получено кодов типа" << type << ":" << codes.size();
     return codes;
+}
+
+void DatabaseManager::clearHistory()
+{
+    if (!m_database.isOpen()) {
+        qDebug() << "Ошибка: база данных не открыта при очистке истории";
+        return;
+    }
+
+    QSqlQuery query(m_database);
+    bool success = query.exec("DELETE FROM codes");
+    if (!success) {
+        qDebug() << "Ошибка очистки истории:" << query.lastError().text();
+        return;
+    }
+
+    qDebug() << "История успешно очищена";
 }

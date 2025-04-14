@@ -6,6 +6,7 @@
 #include "databasemanager.h"
 #include "qrimageprovider.h"
 #include "filepicker.h"
+#include "pdfexporter.h"
 #include <QtCore>
 
 using namespace Qt::StringLiterals;
@@ -17,7 +18,6 @@ int main(int argc, char *argv[])
     DatabaseManager dbManager;
     if (!dbManager.initialize()) {
         qWarning() << "Ошибка инициализации базы данных, приложение продолжит работу без базы";
-        // Не завершаем приложение для тестирования
     }
 
     QRImageProvider *imageProvider = new QRImageProvider;
@@ -32,6 +32,10 @@ int main(int argc, char *argv[])
 
     FilePicker filePicker;
 
+    PdfExporter pdfExporter;
+    pdfExporter.setImageProvider(imageProvider);
+    pdfExporter.setDatabaseManager(&dbManager);
+
     QQmlApplicationEngine engine;
     engine.addImageProvider("qrimageprovider", imageProvider);
     qDebug() << "ImageProvider registered:" << engine.imageProvider("qrimageprovider");
@@ -40,6 +44,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("barcodeGenerator", &barcodeGenerator);
     engine.rootContext()->setContextProperty("databaseManager", &dbManager);
     engine.rootContext()->setContextProperty("filePicker", &filePicker);
+    engine.rootContext()->setContextProperty("pdfExporter", &pdfExporter);
 
     const QUrl url(u"qrc:/qt/qml/QRCodeApp/Main.qml"_s);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [&url](const QUrl &objUrl) {

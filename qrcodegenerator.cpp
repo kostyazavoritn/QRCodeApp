@@ -30,7 +30,7 @@ void QrcodeGenerator::generateQrCode(const QString &text)
             return;
         }
         ZXing::MultiFormatWriter writer{ZXing::BarcodeFormat::QRCode};
-        auto matrix = writer.encode(text.toStdWString(), 350, 350); // Увеличиваем размер до 350x350
+        auto matrix = writer.encode(text.toStdWString(), 350, 350);
         m_qrImage = QImage(350, 350, QImage::Format_RGB32);
         m_qrImage.fill(Qt::white);
 
@@ -72,9 +72,29 @@ void QrcodeGenerator::generateQrCodeForHistory(const QString &text, const QStrin
             qDebug() << "generateQrCodeForHistory: Пустой текст";
             return;
         }
+
+        // Проверяем, есть ли изображение в m_qrImage или m_batchCodes
+        if (m_imageProvider) {
+            QImage existingImage = m_imageProvider->getQrImage();
+            if (!existingImage.isNull() && existingImage.size() == QSize(350, 350)) {
+                qDebug() << "Изображение для текста" << text << "уже есть в m_qrImage, пропускаем генерацию";
+                m_imageProvider->setImageForId(imageId, existingImage);
+                return;
+            }
+
+            for (const auto &pair : m_batchCodes) {
+                if (pair.first == text) {
+                    qDebug() << "Изображение для текста" << text << "найдено в m_batchCodes, пропускаем генерацию";
+                    m_imageProvider->setImageForId(imageId, pair.second);
+                    return;
+                }
+            }
+        }
+
+        // Генерируем изображение в оригинальном размере 350x350
         ZXing::MultiFormatWriter writer{ZXing::BarcodeFormat::QRCode};
-        auto matrix = writer.encode(text.toStdWString(), 80, 80);
-        QImage image(80, 80, QImage::Format_RGB32);
+        auto matrix = writer.encode(text.toStdWString(), 350, 350);
+        QImage image(350, 350, QImage::Format_RGB32);
         image.fill(Qt::white);
 
         for (int y = 0; y < matrix.height(); ++y) {
@@ -137,7 +157,7 @@ void QrcodeGenerator::generateFromCsv(const QString &filePath)
             qDebug() << "Обработка текста из CSV:" << text;
 
             ZXing::MultiFormatWriter writer{ZXing::BarcodeFormat::QRCode};
-            auto matrix = writer.encode(text.toStdWString(), 350, 350); // Увеличиваем размер до 350x350
+            auto matrix = writer.encode(text.toStdWString(), 350, 350);
             QImage image(350, 350, QImage::Format_RGB32);
             image.fill(Qt::white);
 

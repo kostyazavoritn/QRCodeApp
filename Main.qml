@@ -8,19 +8,37 @@ ApplicationWindow {
     title: "QR Code & Barcode Generator"
     visibility: Window.FullScreen
 
-    readonly property int safeAreaTopMargin: 30 // Уменьшаем отступ сверху
+    readonly property int safeAreaTopMargin: 20
     readonly property int safeAreaBottomMargin: 40
 
-    property var batchCodes: [] // Список для хранения кодов из CSV
-    property bool isQrCode: true // Для отслеживания типа кода (QR или Barcode)
+    property var batchCodes: []
+    property bool isQrCode: true
 
     TabBar {
         id: tabBar
         width: parent.width
         anchors.top: parent.top
         anchors.topMargin: safeAreaTopMargin
-        TabButton { text: "Генерация" }
-        TabButton { text: "История" }
+        TabButton {
+            text: "Генерация"
+            contentItem: Text {
+                text: parent.text
+                font.pixelSize: 20
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: parent.checked ? "black" : "gray"
+            }
+        }
+        TabButton {
+            text: "История"
+            contentItem: Text {
+                text: parent.text
+                font.pixelSize: 20
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: parent.checked ? "black" : "gray"
+            }
+        }
     }
 
     StackLayout {
@@ -48,7 +66,15 @@ ApplicationWindow {
                         Button {
                             text: "Очистить"
                             Layout.fillWidth: true
-                            Layout.minimumWidth: 100 // Минимальная ширина для кнопки
+                            Layout.minimumWidth: 100
+                            implicitHeight: 40
+                            contentItem: Text {
+                                text: parent.text
+                                wrapMode: Text.Wrap
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                color: "white"
+                            }
                             onClicked: {
                                 inputField.text = "";
                                 batchCodes = [];
@@ -62,7 +88,7 @@ ApplicationWindow {
                         ComboBox {
                             id: codeTypeCombo
                             model: ["QR", "Barcode"]
-                            Layout.preferredWidth: 120 // Фиксированная ширина для ComboBox
+                            Layout.preferredWidth: 120
                             onCurrentTextChanged: {
                                 batchCodes = [];
                                 codeImage.source = "";
@@ -75,8 +101,15 @@ ApplicationWindow {
                         Button {
                             text: "Сгенерировать код"
                             Layout.fillWidth: true
-                            Layout.minimumWidth: 150 // Увеличиваем минимальную ширину кнопки
-                            implicitHeight: 40 // Устанавливаем высоту кнопки, чтобы избежать обрезки
+                            Layout.minimumWidth: 150
+                            implicitHeight: 40
+                            contentItem: Text {
+                                text: parent.text
+                                wrapMode: Text.Wrap
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                color: "white"
+                            }
                             onClicked: {
                                 if (inputField.text.trim() === "") {
                                     console.log("Ошибка: текст пустой");
@@ -88,7 +121,7 @@ ApplicationWindow {
                                 busyIndicator.visible = true;
                                 codeImage.visible = false;
                                 errorText.visible = false;
-                                batchCodes = []; // Очищаем список при генерации одного кода
+                                batchCodes = [];
                                 if (codeTypeCombo.currentText === "QR") {
                                     qrCodeGenerator.generateQrCode(inputField.text);
                                 } else {
@@ -102,7 +135,7 @@ ApplicationWindow {
                         ComboBox {
                             id: csvCodeTypeCombo
                             model: ["QR", "Barcode"]
-                            Layout.preferredWidth: 120 // Фиксированная ширина для ComboBox
+                            Layout.preferredWidth: 120
                             onCurrentTextChanged: {
                                 isQrCode = (currentText === "QR");
                                 console.log("csvCodeTypeCombo: isQrCode установлен в", isQrCode);
@@ -111,18 +144,24 @@ ApplicationWindow {
                         Button {
                             text: "Выбрать CSV"
                             Layout.fillWidth: true
-                            Layout.minimumWidth: 150 // Увеличиваем минимальную ширину кнопки
-                            implicitHeight: 40 // Устанавливаем высоту кнопки
+                            Layout.minimumWidth: 150
+                            implicitHeight: 40
+                            contentItem: Text {
+                                text: parent.text
+                                wrapMode: Text.Wrap
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                color: "white"
+                            }
                             onClicked: {
                                 console.log("Запуск выбора CSV файла");
                                 busyIndicator.visible = true;
                                 codeImage.visible = false;
                                 errorText.visible = false;
-                                batchCodes = []; // Очищаем список перед генерацией из CSV
-                                // Явно обновляем isQrCode перед генерацией
+                                batchCodes = [];
                                 isQrCode = (csvCodeTypeCombo.currentText === "QR");
                                 console.log("Перед генерацией из CSV: isQrCode =", isQrCode);
-                                filePicker.pickCsvFile();
+                                filePicker.pickFile();
                             }
                         }
                     }
@@ -160,7 +199,7 @@ ApplicationWindow {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     width: 350
                                     height: isQrCode ? 350 : 120
-                                    fillMode: Image.PreserveAspectFit // Сохраняем пропорции
+                                    fillMode: Image.PreserveAspectFit
                                     cache: false
                                     onStatusChanged: {
                                         console.log("Статус batchCodeImage:", status, "source:", source, "isQrCode:", isQrCode);
@@ -180,7 +219,7 @@ ApplicationWindow {
                         anchors.centerIn: parent
                         width: 350
                         height: codeTypeCombo.currentText === "Barcode" ? 120 : 350
-                        fillMode: Image.PreserveAspectFit // Сохраняем пропорции
+                        fillMode: Image.PreserveAspectFit
                         cache: false
                         visible: false
 
@@ -218,34 +257,92 @@ ApplicationWindow {
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 10
+                spacing: 10
 
                 RowLayout {
+                    spacing: 10
                     TextField {
                         id: filterTextField
                         placeholderText: "Фильтр по тексту"
                         Layout.fillWidth: true
+                        implicitHeight: 40
                     }
                     TextField {
                         id: dateFilterField
                         placeholderText: "Фильтр по дате"
                         Layout.fillWidth: true
+                        implicitHeight: 40
                     }
                     Button {
                         text: "Фильтровать"
-                        Layout.minimumWidth: 100 // Минимальная ширина для кнопки
-                        implicitHeight: 40 // Устанавливаем высоту кнопки
+                        Layout.minimumWidth: 100
+                        Layout.preferredWidth: 120
+                        implicitHeight: 40
+                        contentItem: Text {
+                            text: parent.text
+                            wrapMode: Text.Wrap
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: "white"
+                        }
                         onClicked: loadHistory()
                     }
                 }
 
-                Button {
-                    text: "Очистить фильтры"
-                    Layout.fillWidth: true
-                    implicitHeight: 40 // Устанавливаем высоту кнопки
-                    onClicked: {
-                        filterTextField.text = "";
-                        dateFilterField.text = "";
-                        loadHistory();
+                RowLayout {
+                    spacing: 10
+                    Button {
+                        text: "Очистить фильтры"
+                        Layout.fillWidth: true
+                        Layout.preferredWidth: 150
+                        implicitHeight: 50
+                        contentItem: Text {
+                            text: parent.text
+                            wrapMode: Text.Wrap
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: "white"
+                        }
+                        onClicked: {
+                            filterTextField.text = "";
+                            dateFilterField.text = "";
+                            loadHistory();
+                        }
+                    }
+                    Button {
+                        text: "Очистить историю"
+                        Layout.fillWidth: true
+                        Layout.preferredWidth: 150
+                        implicitHeight: 50
+                        contentItem: Text {
+                            text: parent.text
+                            wrapMode: Text.Wrap
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: "white"
+                        }
+                        onClicked: {
+                            databaseManager.clearHistory();
+                            loadHistory();
+                        }
+                    }
+                    Button {
+                        text: "Экспорт всей истории в PDF"
+                        Layout.fillWidth: true
+                        Layout.preferredWidth: 180
+                        implicitHeight: 50
+                        contentItem: Text {
+                            text: parent.text
+                            wrapMode: Text.Wrap
+                            font.pixelSize: 14
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: "white"
+                        }
+                        onClicked: {
+                            busyIndicator.visible = true;
+                            pdfExporter.exportAllQRCodes();
+                        }
                     }
                 }
 
@@ -256,37 +353,77 @@ ApplicationWindow {
                     model: ListModel { id: historyModel }
                     delegate: Item {
                         width: historyList.width
-                        height: 120
-                        Row {
-                            anchors.fill: parent
+                        implicitHeight: rowContent.implicitHeight + buttonRow.implicitHeight + 15
+
+                        Column {
+                            id: rowContent
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.top: parent.top
                             anchors.margins: 5
                             spacing: 10
 
-                            Image {
-                                id: historyCodeImage
-                                width: 80
-                                height: model.code_type === "Barcode" ? 30 : 80
-                                source: model.imageSource
-                                cache: false
-                                onStatusChanged: {
-                                    if (status === Image.Error) {
-                                        console.log("Ошибка загрузки изображения в истории:", source);
+                            Row {
+                                spacing: 10
+
+                                Image {
+                                    id: historyCodeImage
+                                    width: 80
+                                    height: model.code_type === "Barcode" ? 30 : 80
+                                    source: model.imageSource
+                                    fillMode: Image.PreserveAspectFit
+                                    cache: false
+                                    anchors.verticalCenter: textColumn.verticalCenter
+                                    onStatusChanged: {
+                                        if (status === Image.Error) {
+                                            console.log("Ошибка загрузки изображения в истории:", source);
+                                        }
                                     }
+                                }
+
+                                Column {
+                                    id: textColumn
+                                    width: parent.parent.width - historyCodeImage.width - 15
+                                    spacing: 5
+                                    Text { text: "Текст: " + model.text; wrapMode: Text.Wrap }
+                                    Text { text: "Тип: " + model.code_type }
+                                    Text { id: dateText; text: "Дата: " + model.created_at }
                                 }
                             }
 
-                            Column {
-                                anchors.verticalCenter: parent.verticalCenter
-                                Text { text: "Текст: " + model.text }
-                                Text { text: "Тип: " + model.code_type }
-                                Text { text: "Дата: " + model.created_at }
+                            Row {
+                                id: buttonRow
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                spacing: 10
+
+                                Button {
+                                    id: exportButton
+                                    text: "Экспорт"
+                                    implicitWidth: 80
+                                    implicitHeight: 40
+                                    contentItem: Text {
+                                        text: parent.text
+                                        wrapMode: Text.Wrap
+                                        font.pixelSize: 14
+                                        horizontalAlignment: Text.AlignHCenter
+                                        verticalAlignment: Text.AlignVCenter
+                                        color: "white"
+                                    }
+                                    onClicked: {
+                                        busyIndicator.visible = true;
+                                        var imageId = model.code_type.toLowerCase() + "_" + Qt.md5(model.text);
+                                        pdfExporter.exportSingleQRCode(model.text, model.code_type, imageId);
+                                    }
+                                }
                             }
                         }
+
                         Rectangle {
                             width: parent.width
                             height: 1
                             color: "lightgray"
-                            anchors.bottom: parent.bottom
+                            anchors.top: rowContent.bottom
+                            anchors.topMargin: 5
                         }
                     }
                     clip: true
@@ -334,7 +471,6 @@ ApplicationWindow {
             console.log("Получены batch QR-коды:", codes);
             busyIndicator.visible = false;
             batchCodes = codes;
-            // Принудительно обновляем ListView
             codeListView.forceLayout();
             loadHistory();
         }
@@ -362,7 +498,6 @@ ApplicationWindow {
             console.log("Получены batch штрихкоды:", barcodes);
             busyIndicator.visible = false;
             batchCodes = barcodes;
-            // Принудительно обновляем ListView
             codeListView.forceLayout();
             loadHistory();
         }
@@ -388,12 +523,36 @@ ApplicationWindow {
                 barcodeGenerator.generateFromCsv(filePath);
             }
         }
+        function onFileExported(filePath) {
+            console.log("PDF экспортирован по пути:", filePath);
+            busyIndicator.visible = false;
+            errorText.text = "PDF успешно сохранён!";
+            errorText.color = "green";
+            errorText.visible = true;
+        }
         function onErrorOccurred(error) {
-            console.log("Ошибка выбора файла:", error);
+            console.log("Ошибка выбора/экспорта файла:", error);
             busyIndicator.visible = false;
             errorText.text = error;
+            errorText.color = "red";
             errorText.visible = true;
             codeImage.visible = false;
+        }
+    }
+
+    Connections {
+        target: pdfExporter
+        function onPdfGenerated(filePath) {
+            console.log("PDF сгенерирован, путь:", filePath);
+            busyIndicator.visible = false;
+            filePicker.exportFile(filePath);
+        }
+        function onErrorOccurred(error) {
+            console.log("Ошибка экспорта PDF:", error);
+            busyIndicator.visible = false;
+            errorText.text = error;
+            errorText.color = "red";
+            errorText.visible = true;
         }
     }
 

@@ -18,12 +18,13 @@ public:
     void setBarcodeImage(const QImage &image);
     void setBatchImages(const QList<QPair<QString, QImage>> &images);
     void setImageForId(const QString &imageId, const QImage &image);
+    QImage getQrImage() const;
 
 private:
     QImage m_qrImage;
     QImage m_barcodeImage;
     QList<QPair<QString, QImage>> m_batchImages;
-    QMap<QString, QImage> m_historyImages; // Хранилище для изображений истории
+    QMap<QString, QImage> m_historyImages;
 };
 
 #endif // QRIMAGEPROVIDER_H

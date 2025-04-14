@@ -48,7 +48,10 @@ qt_add_qml_module(QRCodeApp
         barcodegenerator.h
         filepicker.h
         filepicker.mm
+        SOURCES pdfexporter.h pdfexporter.mm
 )
+
+
 
 if (CMAKE_SYSTEM_NAME STREQUAL "iOS")
     set(CMAKE_OSX_ARCHITECTURES "arm64")
