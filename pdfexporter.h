@@ -31,4 +31,4 @@ signals:
     void errorOccurred(const QString &error);
 };
 
-#endif // PDFEXPORTER_H
+#endif

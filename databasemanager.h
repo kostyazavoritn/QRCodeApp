@@ -15,7 +15,7 @@ public:
     Q_INVOKABLE void addCode(const QString &text, const QString &type);
     Q_INVOKABLE QVariantList getAllCodes(const QString &textFilter = "", const QString &dateFilter = "");
     Q_INVOKABLE QVariantList getCodesByType(const QString &type);
-    Q_INVOKABLE void clearHistory(); // Новый метод для очистки истории
+    Q_INVOKABLE void clearHistory();
 
 private:
     void initializeDatabase();
@@ -25,4 +25,4 @@ private:
     QSqlDatabase m_database;
 };
 
-#endif // DATABASEMANAGER_H
+#endif

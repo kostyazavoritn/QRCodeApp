@@ -27,4 +27,4 @@ private:
     QMap<QString, QImage> m_historyImages;
 };
 
-#endif // QRIMAGEPROVIDER_H
+#endif

@@ -8,8 +8,8 @@ class FilePicker : public QObject {
 public:
     explicit FilePicker(QObject *parent = nullptr) : QObject(parent) {}
 
-    Q_INVOKABLE void pickFile(); // Для выбора CSV
-    Q_INVOKABLE void exportFile(const QString &filePath); // Для экспорта PDF
+    Q_INVOKABLE void pickFile();
+    Q_INVOKABLE void exportFile(const QString &filePath);
 
 signals:
     void filePicked(const QString &filePath);
@@ -17,4 +17,4 @@ signals:
     void errorOccurred(const QString &error);
 };
 
-#endif // FILEPICKER_H
+#endif

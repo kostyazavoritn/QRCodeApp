@@ -34,4 +34,4 @@ private:
     QList<QPair<QString, QImage>> m_batchBarcodes;
 };
 
-#endif // BARCODEGENERATOR_H
+#endif

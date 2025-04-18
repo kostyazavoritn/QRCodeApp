@@ -34,4 +34,4 @@ private:
     QList<QPair<QString, QImage>> m_batchCodes;
 };
 
-#endif // QRCODEGENERATOR_H
+#endif

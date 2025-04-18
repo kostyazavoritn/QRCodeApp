@@ -148,13 +148,21 @@ void QrcodeGenerator::generateFromCsv(const QString &filePath)
                 continue;
             }
 
-            QString text = line.trimmed();
-            if (text.isEmpty()) {
-                qDebug() << "Линия" << lineNumber << "пуста после обрезки, пропускаем";
+            // Разделяем строку на столбцы по запятой
+            QStringList columns = line.split(',', Qt::SkipEmptyParts);
+            if (columns.isEmpty()) {
+                qDebug() << "Линия" << lineNumber << "не содержит данных, пропускаем";
                 continue;
             }
 
-            qDebug() << "Обработка текста из CSV:" << text;
+            // Берём только первый столбец
+            QString text = columns[0].trimmed();
+            if (text.isEmpty()) {
+                qDebug() << "Линия" << lineNumber << "имеет пустой первый столбец, пропускаем";
+                continue;
+            }
+
+            qDebug() << "Обработка текста из первого столбца CSV:" << text;
 
             ZXing::MultiFormatWriter writer{ZXing::BarcodeFormat::QRCode};
             auto matrix = writer.encode(text.toStdWString(), 350, 350);
@@ -178,7 +186,7 @@ void QrcodeGenerator::generateFromCsv(const QString &filePath)
         file.close();
 
         if (m_batchCodes.isEmpty()) {
-            emit errorOccurred("В CSV файле нет валидных данных");
+            emit errorOccurred("В CSV файле нет валидных данных в первом столбце");
             return;
         }
 

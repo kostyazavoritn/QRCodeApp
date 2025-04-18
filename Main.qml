@@ -18,25 +18,35 @@ ApplicationWindow {
         id: tabBar
         width: parent.width
         anchors.top: parent.top
-        anchors.topMargin: safeAreaTopMargin
+        anchors.topMargin: 10
         TabButton {
             text: "Генерация"
+            implicitHeight: 60
             contentItem: Text {
                 text: parent.text
-                font.pixelSize: 20
+                font.pixelSize: 22
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: parent.checked ? "black" : "gray"
+                color: palette.dark ? "#FFFFFF" : (parent.checked ? "black" : "gray")
+            }
+            background: Rectangle {
+                color: palette.dark ? "#333333" : palette.button
+                opacity: parent.checked ? 1.0 : 0.7
             }
         }
         TabButton {
             text: "История"
+            implicitHeight: 60
             contentItem: Text {
                 text: parent.text
-                font.pixelSize: 20
+                font.pixelSize: 22
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color: parent.checked ? "black" : "gray"
+                color: palette.dark ? "#FFFFFF" : (parent.checked ? "black" : "gray")
+            }
+            background: Rectangle {
+                color: palette.dark ? "#333333" : palette.button
+                opacity: parent.checked ? 1.0 : 0.7
             }
         }
     }
@@ -190,7 +200,7 @@ ApplicationWindow {
                                     wrapMode: Text.Wrap
                                     width: parent.width
                                     horizontalAlignment: Text.AlignHCenter
-                                    color: "black"
+                                    color: palette.windowText
                                 }
 
                                 Image {
@@ -385,9 +395,9 @@ ApplicationWindow {
                                     id: textColumn
                                     width: parent.parent.width - historyCodeImage.width - 15
                                     spacing: 5
-                                    Text { text: "Текст: " + model.text; wrapMode: Text.Wrap }
-                                    Text { text: "Тип: " + model.code_type }
-                                    Text { id: dateText; text: "Дата: " + model.created_at }
+                                    Text { text: "Текст: " + model.text; wrapMode: Text.Wrap; color: palette.windowText }
+                                    Text { text: "Тип: " + model.code_type; color: palette.windowText }
+                                    Text { id: dateText; text: "Дата: " + model.created_at; color: palette.windowText }
                                 }
                             }
 
@@ -421,7 +431,7 @@ ApplicationWindow {
                         Rectangle {
                             width: parent.width
                             height: 1
-                            color: "lightgray"
+                            color: palette.mid
                             anchors.top: rowContent.bottom
                             anchors.topMargin: 5
                         }
@@ -558,3 +568,4 @@ ApplicationWindow {
 
     Component.onCompleted: loadHistory()
 }
+
