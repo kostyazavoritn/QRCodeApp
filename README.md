@@ -1,7 +1,7 @@
 # QRCodeApp
 Приложение для генерации QR-кодов и штрихкодов.
 Используется библиотека zxing, установленная для устройства ios на архитектуре arm64
-После клонирования репозитория https://github.com/zxing-cpp/zxing-cpp, собирается с помощью:
+После клонирования репозитория https://github.com/zxing-cpp/zxing-cpp, собирается с параметрами:
 cmake .. \
   -DCMAKE_SYSTEM_NAME=iOS \
   -DCMAKE_OSX_ARCHITECTURES=arm64 \
