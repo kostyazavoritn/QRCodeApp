@@ -29,4 +29,16 @@ cmake --install .
 Пакетная обработка: Загрузите CSV-файл через Document Picker для создания нескольких кодов (см. пример CSV в docs/sample.csv).
 Экспорт в PDF: Перейдите во вкладку "История" и нажмите "Экспорт всей истории в PDF" или нажмите "Экспорт" около конкретного кода. 
 
+# Диаграммы
+Диаграмма C4 Container: Показывает контейнеры системы: iOS-приложение (QML UI и C++ логика), SQLite, ZXing. Иллюстрирует взаимодействие через сигналы/слоты и потоки данных  
 ![C4 Container Diagram](https://github.com/kostyazavoritn/QRCodeApp/blob/main/C4_container.jpg)
+
+Диаграммма URL Class Diagram: Показывает классы (QrcodeGenerator, BarcodeGenerator, DatabaseManager, QRImageProvider, PdfExporter, FilePicker), их атрибуты, методы и связи (композиция, зависимость). Упрощает понимание структуры кода.
+![URL Class Diagram](https://github.com/kostyazavoritn/QRCodeApp/blob/main/UML_Class_Diagram.jpg)
+
+Диаграмма URL Sequence Diagram: Иллюстрирует взаимодействие объектов (QML Interface, QrcodeGenerator, DatabaseManager, QRImageProvider) при генерации кода. Показывает вызовы методов, сигналы и обработку ошибок.
+![URL Sequence Diagram](https://github.com/kostyazavoritn/QRCodeApp/blob/main/UML_Sequence_Diagram.jpg)
+
+Диаграмма Deployment Digramm: Описывает архитектуру развертывания приложения на устройстве iOS.
+![Deployment Diagram](https://github.com/kostyazavoritn/QRCodeApp/blob/main/Deployment_Diagram.jpg)
+
