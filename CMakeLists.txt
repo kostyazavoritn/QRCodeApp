@@ -1,18 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(QT_DISABLE_FFMPEG TRUE)
-set(QT_DONT_USE_QT_MULTIMEDIA TRUE)
-set(QT_NO_MULTIMEDIA TRUE)
-add_definitions(-DQT_NO_MULTIMEDIA)
-
-# Отключаем ненужные функции Qt
-set(QT_DISABLE_FEATURE_quick_effects TRUE)
-set(QT_DISABLE_FEATURE_quick_shapes TRUE)
-set(QT_DISABLE_FEATURE_multimedia TRUE)
-set(QT_DISABLE_FEATURE_spatialaudio TRUE)  # Отключаем SpatialAudio
-set(QT_DISABLE_FEATURE_quick3dspatialaudio TRUE)
-set(QT_DISABLE_FEATURE_quickmultimedia TRUE)
-
 project(QRCodeApp VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)

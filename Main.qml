@@ -212,7 +212,8 @@ ApplicationWindow {
                                     fillMode: Image.PreserveAspectFit
                                     cache: false
                                     onStatusChanged: {
-                                        console.log("Статус batchCodeImage:", status, "source:", source, "isQrCode:", isQrCode);
+                                        console.log("Статус batchCodeImage:", status, "source:", source, "isQrCode:",
+                                                    isQrCode);
                                         if (status === Image.Error) {
                                             console.log("Ошибка загрузки изображения для текста:", modelData.text);
                                             errorText.text = "Не удалось загрузить изображение";
@@ -254,11 +255,17 @@ ApplicationWindow {
                     }
 
                     Text {
-                        id: errorText
-                        anchors.centerIn: parent
-                        color: "red"
-                        visible: false
-                    }
+                            id: errorText
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top: busyIndicator.bottom
+                            anchors.topMargin: 10
+                            width: parent.width - 20 // Отступы для читаемости
+                            wrapMode: Text.Wrap
+                            horizontalAlignment: Text.AlignHCenter
+                            color: "red"
+                            visible: false
+                            font.pixelSize: 16 // Для единообразия с другими текстами
+                        }
                 }
             }
         }
