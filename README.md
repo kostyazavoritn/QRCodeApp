@@ -28,3 +28,5 @@ cmake --install .
 Генерация QR-кода: Введите URL (например, https://ya.ru) во вкладке "Генерация", выберите "QR" и нажмите "Сгенерировать код".
 Пакетная обработка: Загрузите CSV-файл через Document Picker для создания нескольких кодов (см. пример CSV в docs/sample.csv).
 Экспорт в PDF: Перейдите во вкладку "История" и нажмите "Экспорт всей истории в PDF" или нажмите "Экспорт" около конкретного кода. 
+
+![C4 Container Diagram](https://github.com/kostyazavoritn/QRCodeApp/blob/main/C4_container.jpg)
