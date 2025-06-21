@@ -43,5 +43,6 @@ cmake --install .
 ![URL Sequence Diagram](https://github.com/kostyazavoritn/QRCodeApp/blob/main/UML_Sequence_Diagram.jpg)
 
 Диаграмма Deployment Digramm: Описывает архитектуру развертывания приложения на устройстве iOS.
+
 ![Deployment Diagram](https://github.com/kostyazavoritn/QRCodeApp/blob/main/Deployment_Diagram.jpg)
 
