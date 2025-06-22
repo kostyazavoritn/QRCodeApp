@@ -12,6 +12,7 @@
 
 # Установка Zxing и сборка
 После клонирования репозитория https://github.com/zxing-cpp/zxing-cpp, собирается с параметрами:
+
 cmake .. \
   -DCMAKE_SYSTEM_NAME=iOS \
   -DCMAKE_OSX_ARCHITECTURES=arm64 \
